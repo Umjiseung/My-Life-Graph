@@ -19,3 +19,8 @@ data class GetGraphDto(
     val id: Long,
     val name: String,
 )
+
+data class GetGraphInfoDto(
+    val name: String,
+    val graphDto: List<GraphDto>,
+)

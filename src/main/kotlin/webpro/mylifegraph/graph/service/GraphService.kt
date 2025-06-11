@@ -1,12 +1,11 @@
 package webpro.mylifegraph.graph.service
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import webpro.mylifegraph.graph.persistence.Graph
 import webpro.mylifegraph.graph.persistence.GraphRepository
-import webpro.mylifegraph.graph.presentation.dto.CreateGraphDto
-import webpro.mylifegraph.graph.presentation.dto.GetGraphDto
-import webpro.mylifegraph.graph.presentation.dto.GetGraphsDto
+import webpro.mylifegraph.graph.presentation.dto.*
 import webpro.mylifegraph.user.persistence.User
 import webpro.mylifegraph.user.persistence.UserRepository
 import java.util.UUID
@@ -55,6 +54,28 @@ class GraphService(
 
         return GetGraphsDto(
             graphs = graphsDto
+        )
+    }
+
+    fun getGraph(graphId: Long): GetGraphInfoDto {
+        val graph = graphRepository.findByIdOrNull(graphId)
+            ?: throw IllegalArgumentException("그래프를 찾을 수 없습니다.")
+
+        val userGraphs = graphRepository.findByUniqueId(graph.uniqueId)
+
+        val user = userRepository.findByUniqueId(graph.uniqueId)
+
+        val graphsDto = userGraphs.map {
+            GraphDto(
+                age = it.age,
+                moodIndex = it.moodIndex,
+                content = it.content
+            )
+        }
+
+        return GetGraphInfoDto(
+            name = user!!.name,
+            graphDto = graphsDto
         )
     }
 
