@@ -10,3 +10,12 @@ data class GraphDto(
     val moodIndex: Int,
     val content: String,
 )
+
+data class GetGraphsDto(
+    val graphs: List<GetGraphDto>
+)
+
+data class GetGraphDto(
+    val id: Long,
+    val name: String,
+)

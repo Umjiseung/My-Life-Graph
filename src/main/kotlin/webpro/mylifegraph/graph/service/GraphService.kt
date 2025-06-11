@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import webpro.mylifegraph.graph.persistence.Graph
 import webpro.mylifegraph.graph.persistence.GraphRepository
 import webpro.mylifegraph.graph.presentation.dto.CreateGraphDto
+import webpro.mylifegraph.graph.presentation.dto.GetGraphDto
+import webpro.mylifegraph.graph.presentation.dto.GetGraphsDto
 import webpro.mylifegraph.user.persistence.User
 import webpro.mylifegraph.user.persistence.UserRepository
 import java.util.UUID
@@ -21,7 +23,7 @@ class GraphService(
 
         val user = User(
             name = dto.name,
-            uniqueId = uniqueId
+            uniqueId = uniqueId.toString()
         )
 
         userRepository.save(user)
@@ -38,5 +40,22 @@ class GraphService(
         }
     }
 
+    @Transactional(readOnly = true)
+    fun getGraphs(): GetGraphsDto {
+        val graphs = graphRepository.findAll()
+
+        val graphsDto = graphs.map {
+            val user = userRepository.findByUniqueId(it.uniqueId)
+
+            GetGraphDto(
+                id = it.id,
+                name = user!!.name
+            )
+        }
+
+        return GetGraphsDto(
+            graphs = graphsDto
+        )
+    }
 
 }

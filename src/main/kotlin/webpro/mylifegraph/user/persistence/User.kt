@@ -14,5 +14,5 @@ class User(
     val name: String,
 
     @Column(nullable = false, unique = true)
-    val uniqueId: UUID
+    val uniqueId: String
 )
