@@ -55,13 +55,11 @@ class GraphService(
         )
     }
 
-    fun getGraph(graphId: Long): GetGraphInfoDto {
-        val graph = graphRepository.findByIdOrNull(graphId)
-            ?: throw IllegalArgumentException("그래프를 찾을 수 없습니다.")
+    fun getGraph(userId: Long): GetGraphInfoDto {
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw IllegalArgumentException("유저를 찾을 수 없습니다.")
 
-        val userGraphs = graphRepository.findByUniqueId(graph.uniqueId)
-
-        val user = userRepository.findByUniqueId(graph.uniqueId)
+        val userGraphs = graphRepository.findByUniqueId(user.uniqueId)
 
         val graphsDto = userGraphs.map {
             GraphDto(

@@ -33,11 +33,11 @@ class GraphController(
         return ResponseEntity.ok(graphs)
     }
 
-    @GetMapping("/{graph_id}")
+    @GetMapping("/{user_id}")
     fun getGraph(
-        @PathVariable("graph_id") graphId: Long
+        @PathVariable("user_id") userId: Long
     ): ResponseEntity<GetGraphInfoDto> {
-        val graph = graphService.getGraph(graphId)
+        val graph = graphService.getGraph(userId)
         return ResponseEntity.ok(graph)
     }
 }
