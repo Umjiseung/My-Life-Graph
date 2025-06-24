@@ -41,14 +41,12 @@ class GraphService(
 
     @Transactional(readOnly = true)
     fun getGraphs(): GetGraphsDto {
-        val graphs = graphRepository.findAll()
+        val users = userRepository.findAll()
 
-        val graphsDto = graphs.map {
-            val user = userRepository.findByUniqueId(it.uniqueId)
-
+        val graphsDto = users.map { user ->
             GetGraphDto(
-                id = it.id,
-                name = user!!.name
+                id = user.id,
+                name = user.name
             )
         }
 
