@@ -38,3 +38,7 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+# SSL 인증서
+*.p12
+*.jks
